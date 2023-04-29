@@ -24,7 +24,7 @@ contract ERC20 is IERC20 {
         return 18; // 1 token = 1 wei
     }
 
-    function totalSupply() external pure returns (uint) {
+    function totalSupply() external view returns (uint) {
         return totalTokens;
     }
 
@@ -107,7 +107,7 @@ contract ERC20 is IERC20 {
     ) public enoughTokens(sender, amount) {
         _beforeTokenTransfer(sender, recipient, amount);
         // require(allowances[sender][recipient] >= amount, "not allowance!");
-        allowances[sender][recipient] -= amount; // if sender didn't allowed receipent get tokens we'll get error
+        allowances[sender][msg.sender] -= amount; // if sender didn't allowed receipent get tokens we'll get error
 
         balances[sender] -= amount;
         balances[recipient] += amount;
