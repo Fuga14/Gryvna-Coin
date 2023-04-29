@@ -19,7 +19,7 @@ interface IERC20 {
     function transfer(address to, uint amount) external;
 
     function allowance(
-        address owner,
+        address _owner,
         address spender
     ) external view returns (uint); // Give permission to spender to take some tokens from owner acc
 
