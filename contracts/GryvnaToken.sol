@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.15;
 
 import "./ERC20.sol";
 import "./IERC20.sol";
 
 contract GryvnaToken is ERC20 {
-    constructor(address shop) ERC20("GryvnaToken", "GT", 1000, shop) {}
+    constructor(address shop) ERC20("GryvnaToken", "GT", 100000, shop) {}
 }
 
 contract GShop {
@@ -25,6 +25,11 @@ contract GShop {
         _;
     }
 
+    modifier enoughTokens(address _from, uint _amount) {
+        require(token.balanceOf(_from) >= _amount, "Not enough tokens!");
+        _;
+    }
+
     function sell(uint _amountToSell) external {
         require(
             _amountToSell > 0 && token.balanceOf(msg.sender) > 0,
@@ -41,6 +46,24 @@ contract GShop {
         emit Sold(_amountToSell, msg.sender);
     }
 
+    function getTokenAddress() public view returns (address) {
+        return address(token);
+    }
+
+    /*
+    function withdrawMoney(
+        uint amount
+    ) public payable enoughTokens(msg.sender, amount) {
+        require(
+            address(this).balance >= amount,
+            "Insufficient balance in the contract"
+        );
+        token.transfer(address(this), amount);
+        (bool success, ) = payable(msg.sender).call{value: amount}("");
+        require(success, "Transfer failed");
+    }
+    */
+
     function tokenBalance() public view returns (uint) {
         return token.balanceOf(address(this));
     }
@@ -54,5 +77,9 @@ contract GShop {
         token.transfer(msg.sender, tokensToBuy);
 
         emit Bought(tokensToBuy, msg.sender);
+    }
+
+    function getOwner() public view returns (address) {
+        return owner;
     }
 }

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.15;
 
 import "./IERC20.sol";
 
@@ -21,7 +21,7 @@ contract ERC20 is IERC20 {
     }
 
     function decimals() external pure returns (uint) {
-        return 18; // 1 token = 1 wei
+        return 18; // 1 token = 1e16 wei
     }
 
     function totalSupply() external view returns (uint) {
@@ -48,7 +48,7 @@ contract ERC20 is IERC20 {
         uint initialSupply,
         address shop
     ) {
-        owner == msg.sender;
+        owner = msg.sender;
         _name = name_;
         _symbol = symbol_;
         mint(initialSupply, shop);
