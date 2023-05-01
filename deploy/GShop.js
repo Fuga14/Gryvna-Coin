@@ -1,6 +1,6 @@
 const { network, ethers } = require('hardhat');
 const { networkConfig, developmentChains } = require('../helper-hardhat-config');
-const tokenJSON = require('../build/artifacts/contracts/GryvnaToken.sol/GryvnaToken.json');
+const { verify } = require('../helper-functions');
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments;
     const { deployer } = await getNamedAccounts();
@@ -23,6 +23,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     console.log(GShop.address);
     console.log('Address of the token:');
     console.log(tokenAddress);
+
+    if (chainId !== 31337) {
+        log('---------------------------');
+        log('Verify on etherscan');
+        verify(GShop.address, args);
+    }
 };
 
 module.exports.tags = ['all', 'main'];

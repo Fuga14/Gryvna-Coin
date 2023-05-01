@@ -63,6 +63,7 @@ module.exports = {
             // npx hardhat verify --list-networks
             sepolia: ETHERSCAN_API_KEY,
             mainnet: ETHERSCAN_API_KEY,
+            goerli: ETHERSCAN_API_KEY,
         },
     },
     allowUnlimitedContractSize: true,
